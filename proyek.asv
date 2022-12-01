@@ -1,0 +1,87 @@
+clc;clear;
+
+% INPUT
+% ---------------------
+% I = imread('sapuBerdiri.png');
+% I = imread('sapuRebah.png');
+I = imread('sapuRebah1.png');
+% I = imread('sapuRebah4.png');
+% I = imread('sendok.jpg');
+
+% % Gagal
+% I = imread('sapuRebah2.png');
+% --------------
+
+figure;imshow(I);
+Iasli = I;
+
+% CONTRAST
+% ---------------------
+I = imadjust(I,[0.2 0.6]);
+figure;imshow(I);
+
+% SIZING
+% ---------------------
+[panjang, lebar, z] = size(I);
+if (panjang > lebar)
+    terpanjang = panjang;
+else    
+    terpanjang = lebar;
+end
+minimalpnjg = double(terpanjang/10);
+pnjgMedFilt = int32(terpanjang/150);
+
+% PROCESS
+% ---------------------
+Iwarna = graythresh(I);
+Idou = imbinarize(Iwa
+
+I = rgb2gray(I);
+I = imbinarize(I);
+I = imcomplement(I);
+
+I = medfilt2(I, [pnjgMedFilt pnjgMedFilt]);
+% I = imfill(I, 'holes');
+figure;imshow(I); hold on;
+
+[akumulator, theta, rho] = hough(I);
+puncak = houghpeaks(akumulator, 9,'Threshold',15);
+garis2nya= houghlines(I, theta, rho, puncak,'MinLength',minimalpnjg);
+
+max_len = 0;
+for k = 1:length(garis2nya)
+   xy = [garis2nya(k).point1; garis2nya(k).point2];
+
+   len = norm(garis2nya(k).point1 - garis2nya(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+      plot(xy_long(:,1),xy_long(:,2),'LineWidth',2,'Color','cyan');
+      plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+      plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+   end
+end
+
+% PROCESS
+% ---------------------
+% % bawah
+bawahX = xy_long(2,1);
+bawahY = xy_long(2,2);
+garisBawah1 = bawahY - int32(terpanjang*0.05);
+plot(bawahX,garisBawah1,'x','LineWidth',2,'Color','red');
+% Ke kiri
+copyX = bawahX;
+while Idou(copyX, garisBawah1) == 1
+    copyX = copyX - 1;
+end
+plot(copyX,garisBawah1,'x','LineWidth',2,'Color','cyan');
+
+
+
+
+
+
+
+
+
+
