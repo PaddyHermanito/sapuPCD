@@ -1,13 +1,15 @@
 clc;clear;
 I = imread('sapu.png');
 I = rgb2gray(I);
-I = edge(I,'Prewitt');
-I = bwmorph(I,'remove');
+I = imbinarize(I,0.8);
+I = imcomplement(I);
+% I = edge(I,'Prewitt');
+% I = bwmorph(I,'remove');
 figure;imshow(I); hold on;
 
 [akumulator, theta, rho] = hough(I);
 puncak = houghpeaks(akumulator, 9,'Threshold',25);
-garis2nya= houghlines(I, theta, rho, puncak,'MinLength',100);
+garis2nya= houghlines(I, theta, rho, puncak,'MinLength',300);
 
 max_len = 0;
 for k = 1:length(garis2nya)
