@@ -3,7 +3,7 @@ clc;clear;
 %% INPUT
 % ---------------------
 % % Sapu
-% I = imread('sapuRebah1.png');
+I = imread('sapuRebah1.png');
 % I = imread('sapuRebah4.png');
 % I = imread('sapuRebah2.png');
 
@@ -169,9 +169,9 @@ imshow(ssimmap,[]);
 
 mirip = ssimval;
 if (mirip < 0.32)
-    title("Sapu : "+mirip);
+    title("Sapu");
 else
-    title("Bukan Sapu : "+mirip);
+    title("Bukan Sapu");
 end
 
 
