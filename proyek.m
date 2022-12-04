@@ -3,17 +3,20 @@ clc;clear;
 %% INPUT
 % ---------------------
 % % Sapu
-% I = imread('sapuRebah1.png');
-I = imread('sapuRebah4.png');
+I = imread('sapuRebah1.png');
+% I = imread('sapuRebah4.png');
 
 % % Bukan Sapu
 % I = imread('tongkat.jpg');
+% I = imread('tongkatEkstrim.jpg');
+% I = imread('sendok.jpg');
+% I = imread('pemandangan.jpg');
+% I = imread('cikrak.jpg');
 
 % % Gagal
 % I = imread('sapuRebah2.png');
 % I = imread('sapuBerdiri.png');
 % I = imread('sapuRebah.png');
-% I = imread('sendok.jpg');
 % --------------
 
 figure;imshow(I);
@@ -40,8 +43,8 @@ pnjgMedFilt = int32(terpanjang/150);
 I = rgb2gray(I);
 I = imbinarize(I);
 I = imcomplement(I);
-Idou = Iasli;
-Idou = imadjust(Idou,[0.2 0.6]);
+% Idou = Iasli;
+% Idou = imadjust(Idou,[0.2 0.6]);
 
 I = medfilt2(I, [pnjgMedFilt pnjgMedFilt]);
 % I = imfill(I, 'holes');
@@ -77,22 +80,23 @@ if atasMinY <= 1
     atasMinY = 1;
 end
 IcropAtas = imcrop(Iasli, [atasMinX atasMinY terpanjang/4 terpanjang/4]);
+
 % figure;imshow(IcropAtas);
-IcropAtas = imadjust(IcropAtas,[0.1 1]);
-IcropAtas = rgb2gray(IcropAtas);
-IcropAtas = imbinarize(IcropAtas);
-IcropAtas = imcomplement(IcropAtas);
-
-[panjangATAS, lebarATAS, zATAS] = size(IcropAtas);
-if (panjangATAS > lebarATAS)
-    terpanjangATAS = panjangATAS;
-else    
-    terpanjangATAS = lebarATAS;
-end
-minimalpnjgATAS = double(terpanjangATAS/10);
-pnjgMedFiltATAS = int32(terpanjangATAS/50);
-
-IcropAtas = medfilt2(IcropAtas, [pnjgMedFiltATAS pnjgMedFiltATAS]);
+% IcropAtas = imadjust(IcropAtas,[0.1 1]);
+% IcropAtas = rgb2gray(IcropAtas);
+% IcropAtas = imbinarize(IcropAtas);
+% IcropAtas = imcomplement(IcropAtas);
+% 
+% [panjangATAS, lebarATAS, zATAS] = size(IcropAtas);
+% if (panjangATAS > lebarATAS)
+%     terpanjangATAS = panjangATAS;
+% else    
+%     terpanjangATAS = lebarATAS;
+% end
+% minimalpnjgATAS = double(terpanjangATAS/10);
+% pnjgMedFiltATAS = int32(terpanjangATAS/50);
+% 
+% IcropAtas = medfilt2(IcropAtas, [pnjgMedFiltATAS pnjgMedFiltATAS]);
 % figure;imshow(IcropAtas);
 
 % deteksiAtas = bwskel(IcropAtas);
@@ -103,38 +107,70 @@ bawahX = xy_long(2,1);
 bawahY = xy_long(2,2);
 bawahMinX = (bawahX-(max_len/7));
 bawahMinY = (bawahY-(max_len/7));
-if bawahMinX >= lebar-(terpanjang/4)
-    bawahMinX = lebar-(terpanjang/4);
+if bawahMinX <= 1
+    bawahMinX = 1;
 end
-if bawahMinY <= panjang-(terpanjang/4)
-    bawahMinY = panjang-(terpanjang/4);
+if bawahMinY <= 1
+    bawahMinY = 1;
 end
 IcropBawah = imcrop(Iasli, [bawahMinX bawahMinY terpanjang/4 terpanjang/4]);
+
 % figure;imshow(IcropBawah);
-IcropBawah = imadjust(IcropBawah,[0.1 1]);
-IcropBawah = rgb2gray(IcropBawah);
-IcropBawah = imbinarize(IcropBawah);
-IcropBawah = imcomplement(IcropBawah);
+% IcropBawah = imadjust(IcropBawah,[0.1 1]);
+% IcropBawah = rgb2gray(IcropBawah);
+% IcropBawah = imbinarize(IcropBawah);
+% IcropBawah = imcomplement(IcropBawah);
+% 
+% [panjangBAWAH, lebarBAWAH, zBAWAH] = size(IcropBawah);
+% if (panjangBAWAH > lebarBAWAH)
+%     terpanjangBAWAH = panjangBAWAH;
+% else    
+%     terpanjangBAWAH = lebarBAWAH;
+% end
+% minimalpnjgBAWAH = double(terpanjangBAWAH/10);
+% pnjgMedFiltBAWAH = int32(terpanjangBAWAH/50);
 
-[panjangBAWAH, lebarBAWAH, zBAWAH] = size(IcropBawah);
-if (panjangBAWAH > lebarBAWAH)
-    terpanjangBAWAH = panjangBAWAH;
-else    
-    terpanjangBAWAH = lebarBAWAH;
-end
-minimalpnjgBAWAH = double(terpanjangBAWAH/10);
-pnjgMedFiltBAWAH = int32(terpanjangBAWAH/50);
-
-IcropBawah = medfilt2(IcropBawah, [pnjgMedFiltBAWAH pnjgMedFiltBAWAH]);
+% IcropBawah = medfilt2(IcropBawah, [pnjgMedFiltBAWAH pnjgMedFiltBAWAH]);
 % figure;imshow(IcropBawah);
 
 % deteksiBawah = bwskel(IcropBawah);
 % figure;imshow(deteksiBawah);
 
-figure;imshowpair(IcropAtas,IcropBawah);
+figure;
+subplot(1,2,1), imshow(IcropAtas)
+subplot(1,2,2), imshow(IcropBawah)
+
 %% Deteksi
+[Ax, Ay, Az] = size(IcropAtas);
+[Bx, By, Bz] = size(IcropBawah);
 
+ukurX = Ax;
+ukurY = Ay;
+if (Ax > Bx)
+    ukurX = Bx;
+end
+if (Ay > By)
+    ukurY = By;
+end
+targetSize = [ukurX ukurY];
 
+rAtas = centerCropWindow2d(size(IcropAtas),targetSize);
+Iatas = imcrop(IcropAtas, rAtas);
+
+rBawah = centerCropWindow2d(size(IcropBawah),targetSize);
+Ibawah = imcrop(IcropBawah, rBawah);
+
+[ssimval,ssimmap] = ssim(Iatas,Ibawah);
+figure;
+imshow(ssimmap,[]);
+% title(num2str(ssimval));
+
+mirip = ssimval;
+if (mirip < 0.3)
+    title("Sapu : "+mirip);
+else
+    title("Bukan Sapu : "+mirip);
+end
 
 
 
