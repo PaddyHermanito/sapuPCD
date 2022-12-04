@@ -1,15 +1,19 @@
 clc;clear;
 
-% INPUT
+%% INPUT
 % ---------------------
-% I = imread('sapuBerdiri.png');
-% I = imread('sapuRebah.png');
+% % Sapu
 % I = imread('sapuRebah1.png');
 I = imread('sapuRebah4.png');
-% I = imread('sendok.jpg');
+
+% % Bukan Sapu
+% I = imread('tongkat.jpg');
 
 % % Gagal
 % I = imread('sapuRebah2.png');
+% I = imread('sapuBerdiri.png');
+% I = imread('sapuRebah.png');
+% I = imread('sendok.jpg');
 % --------------
 
 figure;imshow(I);
@@ -18,7 +22,7 @@ Iasli = I;
 % CONTRAST
 % ---------------------
 I = imadjust(I,[0.2 0.6]);
-figure;imshow(I);
+% figure;imshow(I);
 
 % SIZING
 % ---------------------
@@ -31,7 +35,7 @@ end
 minimalpnjg = double(terpanjang/10);
 pnjgMedFilt = int32(terpanjang/150);
 
-% PROCESS
+%% Cari Garis terpanjang
 % ---------------------
 I = rgb2gray(I);
 I = imbinarize(I);
@@ -61,10 +65,7 @@ for k = 1:length(garis2nya)
    end
 end
 
-object = "Bukan sapu";
-
-% PROCESS
-% ---------------------
+%% Atas
 atasX = xy_long(1,1);
 atasY = xy_long(1,2);
 atasMinX = (atasX-(max_len/7));
@@ -75,22 +76,63 @@ end
 if atasMinY <= 1
     atasMinY = 1;
 end
-IcropAtas = imcrop(Iasli, [atasMinX atasMinY 1000 1000]);
-figure;imshow(IcropAtas);
+IcropAtas = imcrop(Iasli, [atasMinX atasMinY terpanjang/4 terpanjang/4]);
+% figure;imshow(IcropAtas);
+IcropAtas = imadjust(IcropAtas,[0.1 1]);
+IcropAtas = rgb2gray(IcropAtas);
+IcropAtas = imbinarize(IcropAtas);
+IcropAtas = imcomplement(IcropAtas);
 
+[panjangATAS, lebarATAS, zATAS] = size(IcropAtas);
+if (panjangATAS > lebarATAS)
+    terpanjangATAS = panjangATAS;
+else    
+    terpanjangATAS = lebarATAS;
+end
+minimalpnjgATAS = double(terpanjangATAS/10);
+pnjgMedFiltATAS = int32(terpanjangATAS/50);
+
+IcropAtas = medfilt2(IcropAtas, [pnjgMedFiltATAS pnjgMedFiltATAS]);
+% figure;imshow(IcropAtas);
+
+% deteksiAtas = bwskel(IcropAtas);
+% figure;imshow(deteksiAtas);
+
+%% Bawah
 bawahX = xy_long(2,1);
 bawahY = xy_long(2,2);
 bawahMinX = (bawahX-(max_len/7));
 bawahMinY = (bawahY-(max_len/7));
-if bawahMinX >= lebar-1000
-    bawahMinX = lebar-1000;
+if bawahMinX >= lebar-(terpanjang/4)
+    bawahMinX = lebar-(terpanjang/4);
 end
-if bawahMinY <= panjang-1000
-    bawahMinY = panjang-1000;
+if bawahMinY <= panjang-(terpanjang/4)
+    bawahMinY = panjang-(terpanjang/4);
 end
-IcropAtas = imcrop(Iasli, [bawahMinX bawahMinY 1000 1000]);
-figure;imshow(IcropAtas);
+IcropBawah = imcrop(Iasli, [bawahMinX bawahMinY terpanjang/4 terpanjang/4]);
+% figure;imshow(IcropBawah);
+IcropBawah = imadjust(IcropBawah,[0.1 1]);
+IcropBawah = rgb2gray(IcropBawah);
+IcropBawah = imbinarize(IcropBawah);
+IcropBawah = imcomplement(IcropBawah);
 
+[panjangBAWAH, lebarBAWAH, zBAWAH] = size(IcropBawah);
+if (panjangBAWAH > lebarBAWAH)
+    terpanjangBAWAH = panjangBAWAH;
+else    
+    terpanjangBAWAH = lebarBAWAH;
+end
+minimalpnjgBAWAH = double(terpanjangBAWAH/10);
+pnjgMedFiltBAWAH = int32(terpanjangBAWAH/50);
+
+IcropBawah = medfilt2(IcropBawah, [pnjgMedFiltBAWAH pnjgMedFiltBAWAH]);
+% figure;imshow(IcropBawah);
+
+% deteksiBawah = bwskel(IcropBawah);
+% figure;imshow(deteksiBawah);
+
+figure;imshowpair(IcropAtas,IcropBawah);
+%% Deteksi
 
 
 

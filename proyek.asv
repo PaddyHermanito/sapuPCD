@@ -2,14 +2,14 @@ clc;clear;
 
 % INPUT
 % ---------------------
-% I = imread('sapuBerdiri.png');
-% I = imread('sapuRebah.png');
-% I = imread('sapuRebah1.png');
-I = imread('sapuRebah4.png');
-% I = imread('sendok.jpg');
+I = imread('sapuRebah1.png');
+% I = imread('sapuRebah4.png');
 
 % % Gagal
 % I = imread('sapuRebah2.png');
+% I = imread('sapuBerdiri.png');
+% I = imread('sapuRebah.png');
+% I = imread('sendok.jpg');
 % --------------
 
 figure;imshow(I);
@@ -18,7 +18,7 @@ Iasli = I;
 % CONTRAST
 % ---------------------
 I = imadjust(I,[0.2 0.6]);
-figure;imshow(I);
+% figure;imshow(I);
 
 % SIZING
 % ---------------------
@@ -67,16 +67,43 @@ object = "Bukan sapu";
 % ---------------------
 atasX = xy_long(1,1);
 atasY = xy_long(1,2);
-atasMinX = (atasX-(terpanjang/10));
-atasMinY = (atasY-(terpanjang/10));
-if atasMinX <= 1 end
-IcropAtas = imcrop(Iasli, [atasMinX (atasY-(max_len/3)) 1000 1000]);
+atasMinX = (atasX-(max_len/7));
+atasMinY = (atasY-(max_len/7));
+if atasMinX <= 1
+    atasMinX = 1;
+end
+if atasMinY <= 1
+    atasMinY = 1;
+end
+IcropAtas = imcrop(Iasli, [atasMinX atasMinY 1000 1000]);
+% figure;imshow(IcropAtas);
+IcropAtas = rgb2gray(I);
+IcropAtas = imbinarize(IcropAtas);
+IcropAtas = imcomplement(IcropAtas);
 figure;imshow(IcropAtas);
+
+
+
+
+
+
+
+
 
 bawahX = xy_long(2,1);
 bawahY = xy_long(2,2);
-IcropAtas = imcrop(Iasli, [(bawahX-(max_len/3)) (bawahY-(max_len/3)) 1000 1000]);
-figure;imshow(IcropAtas);
+bawahMinX = (bawahX-(max_len/7));
+bawahMinY = (bawahY-(max_len/7));
+if bawahMinX >= lebar-1000
+    bawahMinX = lebar-1000;
+end
+if bawahMinY <= panjang-1000
+    bawahMinY = panjang-1000;
+end
+IcropBawah = imcrop(Iasli, [bawahMinX bawahMinY 1000 1000]);
+figure;imshow(IcropBawah);
+% figure;histogram(IcropBawah);
+
 
 
 
