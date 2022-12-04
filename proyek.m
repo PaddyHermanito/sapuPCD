@@ -17,6 +17,7 @@ clc;clear;
 % I = imread('cikrak.jpg');
 
 % % Gagal
+% I = imread('gitar.jpg');
 % I = imread('sapuRebah.png');
 % --------------
 
