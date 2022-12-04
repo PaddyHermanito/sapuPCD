@@ -166,7 +166,7 @@ imshow(ssimmap,[]);
 % title(num2str(ssimval));
 
 mirip = ssimval;
-if (mirip < 0.3)
+if (mirip < 0.32)
     title("Sapu : "+mirip);
 else
     title("Bukan Sapu : "+mirip);
