@@ -3,8 +3,11 @@ clc;clear;
 %% INPUT
 % ---------------------
 % % Sapu
-I = imread('sapuRebah1.png');
+% I = imread('sapuRebah1.png');
 % I = imread('sapuRebah4.png');
+% I = imread('sapuRebah2.png');
+
+% I = imread('sapuBerdiri.png');
 
 % % Bukan Sapu
 % I = imread('tongkat.jpg');
@@ -14,8 +17,6 @@ I = imread('sapuRebah1.png');
 % I = imread('cikrak.jpg');
 
 % % Gagal
-% I = imread('sapuRebah2.png');
-% I = imread('sapuBerdiri.png');
 % I = imread('sapuRebah.png');
 % --------------
 
