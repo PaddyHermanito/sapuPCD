@@ -4,8 +4,8 @@ clc;clear;
 % ---------------------
 % I = imread('sapuBerdiri.png');
 % I = imread('sapuRebah.png');
-I = imread('sapuRebah1.png');
-% I = imread('sapuRebah4.png');
+% I = imread('sapuRebah1.png');
+I = imread('sapuRebah4.png');
 % I = imread('sendok.jpg');
 
 % % Gagal
@@ -36,7 +36,8 @@ pnjgMedFilt = int32(terpanjang/150);
 I = rgb2gray(I);
 I = imbinarize(I);
 I = imcomplement(I);
-Idou = im2double(I);
+Idou = Iasli;
+Idou = imadjust(Idou,[0.2 0.6]);
 
 I = medfilt2(I, [pnjgMedFilt pnjgMedFilt]);
 % I = imfill(I, 'holes');
@@ -60,42 +61,92 @@ for k = 1:length(garis2nya)
    end
 end
 
+object = "Bukan sapu";
+
 % PROCESS
 % ---------------------
-% % bawah
+atasX = xy_long(1,1);
+atasY = xy_long(1,2);
+atasMinX = (atasX-(max_len/7));
+atasMinY = (atasY-(max_len/7));
+if atasMinX <= 1
+    atasMinX = 1;
+end
+if atasMinY <= 1
+    atasMinY = 1;
+end
+IcropAtas = imcrop(Iasli, [atasMinX atasMinY 1000 1000]);
+figure;imshow(IcropAtas);
+
 bawahX = xy_long(2,1);
 bawahY = xy_long(2,2);
-    garisBawah1 = bawahY - int32(terpanjang*(0.05));
-    plot(bawahX,garisBawah1,'x','LineWidth',2,'Color','red');
-    % Ke kiri
-    copyXi = bawahX;
-    while Idou(copyXi, garisBawah1) == 0
-        copyXi = copyXi - 1;
-    end
-    plot(copyXi,garisBawah1,'x','LineWidth',2,'Color','cyan');
-    
-    % Ke kanan
-    copyXa = bawahX;
-    while Idou(copyXa, garisBawah1) == 0
-        copyXa = copyXa + 1;
-    end
-    plot(copyXa,garisBawah1,'x','LineWidth',2,'Color','cyan');  
+bawahMinX = (bawahX-(max_len/7));
+bawahMinY = (bawahY-(max_len/7));
+if bawahMinX >= lebar-1000
+    bawahMinX = lebar-1000;
+end
+if bawahMinY <= panjang-1000
+    bawahMinY = panjang-1000;
+end
+IcropAtas = imcrop(Iasli, [bawahMinX bawahMinY 1000 1000]);
+figure;imshow(IcropAtas);
 
-    garisBawah2 = bawahY - int32(terpanjang*0.1);
-    plot(bawahX,garisBawah2,'x','LineWidth',2,'Color','red');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% % bawah
+% bawahX = xy_long(2,1);
+% bawahY = xy_long(2,2);
+%     garisBawah1 = bawahY - int32(terpanjang*(0.05));
+%     plot(bawahX,garisBawah1,'x','LineWidth',2,'Color','red');
     % Ke kiri
-    copyXi2 = bawahX;
-    while Idou(copyXi2, garisBawah2) == 0
-        copyXi2 = copyXi2 - 1;
-    end
-    plot(copyXi2,garisBawah2,'x','LineWidth',2,'Color','cyan');
+%     copyXi = bawahX;
+%     while (abs(Idou(copyXi, garisBawah1) - Idou(copyXi-1, garisBawah1)) < 15)
+%         copyXi = copyXi - 1;
+%     end
+%     plot(copyXi,garisBawah1,'x','LineWidth',2,'Color','cyan');
     
     % Ke kanan
-    copyXa = bawahX;
-    while Idou(copyXa, garisBawah2) == 0
-        copyXa = copyXa + 1;
-    end
-    plot(copyXa,garisBawah2,'x','LineWidth',2,'Color','cyan');  
+%     copyXa = bawahX;
+%     while (abs(Idou(copyXa, garisBawah1) - Idou(copyXa+1, garisBawah1)) < 15)
+%         copyXa = copyXa + 1;
+%     end
+%     plot(copyXa,garisBawah1,'x','LineWidth',2,'Color','cyan');
+% 
+%     garisBawah2 = bawahY - int32(terpanjang*0.1);
+%     plot(bawahX,garisBawah2,'x','LineWidth',2,'Color','red');
+%     % Ke kiri
+%     copyXi2 = bawahX;
+%     while Idou(copyXi2, garisBawah2) == 0
+%         copyXi2 = copyXi2 - 1;
+%     end
+%     plot(copyXi2,garisBawah2,'x','LineWidth',2,'Color','cyan');
+%     
+%     % Ke kanan
+%     copyXa = bawahX;
+%     while Idou(copyXa, garisBawah2) == 0
+%         copyXa = copyXa + 1;
+%     end
+%     plot(copyXa,garisBawah2,'x','LineWidth',2,'Color','cyan');  
     
 
 
