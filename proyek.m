@@ -21,6 +21,8 @@ I = imread('sapuRebah1.png');
 % I = imread('sapuRebah.png');
 % --------------
 
+% I = imrotate(I, 90);
+
 figure;imshow(I);
 Iasli = I;
 
@@ -167,6 +169,7 @@ figure;
 imshow(ssimmap,[]);
 % title(num2str(ssimval));
 
+figure; imshow(Iasli);
 mirip = ssimval;
 if (mirip < 0.32)
     title("Sapu");
